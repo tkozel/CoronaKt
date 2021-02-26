@@ -6,9 +6,17 @@ import cz.uhk.coronakt.model.DayStats
 import java.sql.Timestamp
 import java.util.*
 
+/**
+ * Room DB
+ * singleton pro pristup k DB
+ */
 @Database(entities = [DayStats::class], version = 1, exportSchema = false)
 @TypeConverters(CovidDatabase.MyConverter::class)
 abstract class CovidDatabase : RoomDatabase() {
+
+    /**
+     * Converter pro timestamp - Date
+     */
     class MyConverter {
         @TypeConverter
         fun fromDate(datum : Date?) : Long? {
@@ -23,6 +31,7 @@ abstract class CovidDatabase : RoomDatabase() {
 
     abstract fun dayStatsDao(): DayStatsDao
 
+    //static
     companion object {
         @Volatile
         private var INSTANCE : CovidDatabase? = null

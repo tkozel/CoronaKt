@@ -10,6 +10,9 @@ import cz.uhk.coronakt.R
 import cz.uhk.coronakt.model.CovidData
 import java.text.DateFormat
 
+/**
+ * Adapter pro RecyclerView
+ */
 class CovidDataAdapter(private val covidData : CovidData) : RecyclerView.Adapter<CovidDataAdapter.ViewHolder>() {
     class ViewHolder(view: View ) : RecyclerView.ViewHolder(view) {
         val tvDate : TextView = view.findViewById(R.id.item_date)

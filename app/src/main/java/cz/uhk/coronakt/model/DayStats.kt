@@ -6,6 +6,9 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
+/**
+ * Date class = Denni statistiky covid testovani
+ */
 @Entity(tableName = "daystats")
 data class DayStats(@SerializedName("datum")
                     @PrimaryKey

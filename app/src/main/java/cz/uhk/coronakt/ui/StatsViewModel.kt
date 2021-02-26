@@ -12,18 +12,26 @@ import retrofit2.Response
 import java.util.*
 import java.util.concurrent.Executors
 
+/**
+ * ViewModel drzici stav aplikace(aktivity)
+ */
 class StatsViewModel(application: Application) : AndroidViewModel(application) {
+    //livedata - obserovana data, inicialiace az pri prvnim pouziti
     val data : MutableLiveData<CovidData> by lazy {
         MutableLiveData<CovidData>()
     }
 
+    /**
+     * Stahnout data pomoci Retrofit, callback na konci aktualizuje stav
+     */
     fun downloadData() {
+        //volame sluzbu
         CovidApi.covidApiService.getCovidData().enqueue(object : Callback<CovidData> {
             override fun onResponse(call: Call<CovidData>, response: Response<CovidData>) {
                 val covidData = response.body()
                 covidData?.data?.reverse()
                 data.postValue(covidData)
-
+                //stazena data propsat do DB
                 Executors.newSingleThreadExecutor().submit {
                     updateDb()
                 }
@@ -35,14 +43,18 @@ class StatsViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
+    /**
+     * Update DB, prepis ze stavu(livedat) do DB
+     */
     private fun updateDb() {
         val db = CovidDatabase.getInstance(getApplication())
         val dao = db.dayStatsDao()
-        //db.runInTransaction {
-            data.value?.data?.let { dao.insertAll(*it.toTypedArray()) }
-        //}
+        data.value?.data?.let { dao.insertAll(*it.toTypedArray()) }
     }
 
+    /**
+     * Nacteni stavu z DB
+     */
     fun loadDbData() {
         val dao = CovidDatabase.getInstance(getApplication()).dayStatsDao()
         val covidData = CovidData(Date(), dao.getAll().toMutableList())
