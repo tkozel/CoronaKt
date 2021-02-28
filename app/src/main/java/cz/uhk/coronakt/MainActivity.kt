@@ -1,5 +1,6 @@
 package cz.uhk.coronakt
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -67,5 +68,10 @@ class MainActivity : AppCompatActivity() {
             // se nakonec recyclerview
             model.loadDbData()
         }
+    }
+
+    fun showChart(m : MenuItem) {
+        val intent = Intent(this, ChartActivity::class.java)
+        startActivity(intent)
     }
 }

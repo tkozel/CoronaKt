@@ -58,6 +58,9 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
+    //MPAndroidChart
+    implementation 'com.mysugr.MPAndroidChart:MPAndroidChart:3.1.0-mysugr-1'
+
     implementation "androidx.activity:activity-ktx:1.2.0"
 
     testImplementation 'junit:junit:4.13.2'

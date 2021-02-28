@@ -7,4 +7,8 @@
         android:onClick="downloadData"
         android:title="@string/mniAktual"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/mni_chart"
+        android:onClick="showChart"
+        android:title="@string/mni_chart" />
 </menu>
