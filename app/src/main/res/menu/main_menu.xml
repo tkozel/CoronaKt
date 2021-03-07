@@ -3,12 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/mniDownload"
-        android:icon="@android:drawable/ic_popup_sync"
+        android:icon="@drawable/ic_refresh"
         android:onClick="downloadData"
         android:title="@string/mniAktual"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/mni_chart"
+        android:icon="@drawable/ic_chart"
         android:onClick="showChart"
-        android:title="@string/mni_chart" />
+        android:title="@string/mni_chart"
+        app:showAsAction="ifRoom" />
 </menu>

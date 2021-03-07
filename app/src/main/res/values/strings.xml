@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">COVID-19 Statistics</string>
     <string name="mniAktual">Aktualizovat</string>
-    <string name="mni_chart">Chart</string>
+    <string name="mni_chart">Graf</string>
 </resources>

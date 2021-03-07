@@ -67,7 +67,7 @@ class ChartActivity : AppCompatActivity() {
                 setPinchZoom(false)
                 isDragEnabled = true
                 isDoubleTapToZoomEnabled = true
-                setVisibleXRangeMaximum(30f)
+                //setVisibleXRangeMaximum(30f)
                 invalidate()
             }
         }
