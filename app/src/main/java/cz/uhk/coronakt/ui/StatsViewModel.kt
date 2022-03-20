@@ -1,24 +1,27 @@
 package cz.uhk.coronakt.ui
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import cz.uhk.coronakt.db.CovidDatabase
 import cz.uhk.coronakt.model.CovidData
+import cz.uhk.coronakt.model.DayStats
 import cz.uhk.coronakt.ws.CovidApi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 import java.util.concurrent.Executors
+import java.util.logging.Logger
 
 /**
  * ViewModel drzici stav aplikace(aktivity)
  */
 class StatsViewModel(application: Application) : AndroidViewModel(application) {
     //livedata - obserovana data, inicialiace az pri prvnim pouziti
-    val data : MutableLiveData<CovidData> by lazy {
-        MutableLiveData<CovidData>()
+    val data : MutableLiveData<List<DayStats>> by lazy {
+        MutableLiveData<List<DayStats>>()
     }
 
     /**
@@ -26,10 +29,9 @@ class StatsViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun downloadData() {
         //volame sluzbu
-        CovidApi.covidApiService.getCovidData().enqueue(object : Callback<CovidData> {
-            override fun onResponse(call: Call<CovidData>, response: Response<CovidData>) {
-                val covidData = response.body()
-                covidData?.data?.reverse()
+        CovidApi.covidApiService.getCovidData().enqueue(object : Callback<List<DayStats>> {
+            override fun onResponse(call: Call<List<DayStats>>, response: Response<List<DayStats>>) {
+                val covidData = response.body()?.asReversed()
                 data.postValue(covidData)
                 //stazena data propsat do DB
                 Executors.newSingleThreadExecutor().submit {
@@ -37,7 +39,8 @@ class StatsViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
 
-            override fun onFailure(call: Call<CovidData>, t: Throwable) {
+            override fun onFailure(call: Call<List<DayStats>>, t: Throwable) {
+                Log.e("DOWNLOAD", "ERROR", t)
             }
 
         })
@@ -49,7 +52,7 @@ class StatsViewModel(application: Application) : AndroidViewModel(application) {
     private fun updateDb() {
         val db = CovidDatabase.getInstance(getApplication())
         val dao = db.dayStatsDao()
-        data.value?.data?.let { dao.insertAll(*it.toTypedArray()) }
+        data.value?.let { dao.insertAll(*it.toTypedArray()) }
     }
 
     /**
@@ -57,7 +60,7 @@ class StatsViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun loadDbData() {
         val dao = CovidDatabase.getInstance(getApplication()).dayStatsDao()
-        val covidData = CovidData(Date(), dao.getAll().toMutableList())
+        val covidData = dao.getAll().toMutableList()
         data.postValue(covidData)
     }
 }

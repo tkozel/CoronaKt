@@ -8,12 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import cz.uhk.coronakt.R
 import cz.uhk.coronakt.model.CovidData
+import cz.uhk.coronakt.model.DayStats
 import java.text.DateFormat
 
 /**
  * Adapter pro RecyclerView
  */
-class CovidDataAdapter(private val covidData : CovidData) : RecyclerView.Adapter<CovidDataAdapter.ViewHolder>() {
+class CovidDataAdapter(private val covidData : List<DayStats>) : RecyclerView.Adapter<CovidDataAdapter.ViewHolder>() {
     class ViewHolder(view: View ) : RecyclerView.ViewHolder(view) {
         val tvDate : TextView = view.findViewById(R.id.item_date)
         val tvPcr : TextView = view.findViewById(R.id.item_pcr)
@@ -29,7 +30,7 @@ class CovidDataAdapter(private val covidData : CovidData) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = covidData.data[position]
+        val item = covidData[position]
         holder.tvDate.text = DateFormat.getDateInstance().format(item.day)
         holder.tvPcr.text = item.pcrCnt.toString()
         holder.tvAg.text = item.ag.toString()
@@ -42,6 +43,6 @@ class CovidDataAdapter(private val covidData : CovidData) : RecyclerView.Adapter
     }
 
     override fun getItemCount(): Int {
-        return covidData.data.size
+        return covidData.size
     }
 }

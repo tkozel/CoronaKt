@@ -1,6 +1,7 @@
 package cz.uhk.coronakt.ws
 
 import cz.uhk.coronakt.model.CovidData
+import cz.uhk.coronakt.model.DayStats
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -17,7 +18,7 @@ private val retrofit = Retrofit.Builder()
 
 interface CovidApiService {
     @GET("covid.php")
-    fun getCovidData() : Call<CovidData>
+    fun getCovidData() : Call<List<DayStats>>
 }
 
 object CovidApi {
