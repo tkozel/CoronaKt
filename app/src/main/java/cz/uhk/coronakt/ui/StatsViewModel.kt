@@ -19,7 +19,7 @@ import java.util.logging.Logger
  * ViewModel drzici stav aplikace(aktivity)
  */
 class StatsViewModel(application: Application) : AndroidViewModel(application) {
-    //livedata - obserovana data, inicialiace az pri prvnim pouziti
+    //livedata - observovana data, inicialiace az pri prvnim pouziti
     val data : MutableLiveData<List<DayStats>> by lazy {
         MutableLiveData<List<DayStats>>()
     }
